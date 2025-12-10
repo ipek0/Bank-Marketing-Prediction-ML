@@ -123,13 +123,13 @@ def get_user_input():
     # Create DataFrame
     input_df = pd.DataFrame([data])
     
-    # Engineer features (same as in training)
+    # Engineer features (MUST match the 3 features used in training: was_previously_contacted, campaign_successful, poutcome_success)
     input_df['was_previously_contacted'] = (input_df['pdays'] != 999).astype(int)
-    input_df['campaign_efficient'] = (input_df['campaign'] <= 3).astype(int)
-    input_df['poutcome_success'] = (input_df['poutcome'] == 'success').astype(int)
-    input_df['age_group'] = pd.cut(input_df['age'], bins=[0, 30, 45, 60, 100], 
-                                    labels=['young', 'middle', 'senior', 'elderly'])
+ 
+    input_df['campaign_successful'] = input_df['campaign'].apply(lambda x: 1 if x < 5 else 0) 
     
+    input_df['poutcome_success'] = (input_df['poutcome'] == 'success').astype(int)
+  
     return input_df
 
 def main():
@@ -229,9 +229,11 @@ def main():
     st.markdown("""
     <div style='text-align: center; color: gray;'>
         <p>Bank Marketing Prediction System | ADA 442 Statistical Learning Project</p>
-        <p>Model: Random Forest with Feature Selection | Accuracy: ~91%</p>
-    </div>
+        <p>Model: Logistic Regression with Feature Selection | Metrics based on final test set.</p> 
+        </div>
     """, unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
+
+    #streamlit run app.py
