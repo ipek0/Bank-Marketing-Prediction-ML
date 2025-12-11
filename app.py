@@ -34,7 +34,7 @@ MODEL_PATH = 'final_bank_marketing_model.joblib'
 def load_model():
     """Load the trained pipeline"""
     if not os.path.exists(MODEL_PATH):
-        st.error(f"⚠️ Model file not found: {MODEL_PATH}")
+        st.error(f" Model file not found: {MODEL_PATH}")
         st.info("Please run the Jupyter notebook first to train and save the model.")
         return None
     
@@ -47,7 +47,7 @@ def load_model():
 
 def get_user_input():
     """Collect user input from sidebar"""
-    st.sidebar.header("📋 Client Information")
+    st.sidebar.header(" Client Information")
     
     # Personal Information
     st.sidebar.subheader("Personal Details")
@@ -152,7 +152,7 @@ def main():
     with col1:
         st.subheader("📊 Client Profile Summary")
         
-        # Display selected information in a nice format
+        # Displaying selected information
         st.markdown(f"""
         **Personal Information:**
         - Age: {input_df['age'].values[0]} years
@@ -171,6 +171,9 @@ def main():
         - Last outcome: {input_df['poutcome'].values[0]}
         """)
     
+
+
+
     with col2:
         st.subheader("🎯 Prediction")
         
@@ -228,8 +231,8 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-        <p>Bank Marketing Prediction System | ADA 442 Statistical Learning Project</p>
-        <p>Model: Logistic Regression with Feature Selection | Metrics based on final test set.</p> 
+        <p>Bank Marketing Prediction System | ADA 442 Statistical Learning Project </p>
+                <p> made by Ecem Nur Bilgi and İpek Özdemir  </p>
         </div>
     """, unsafe_allow_html=True)
 
