@@ -4,6 +4,22 @@ import pandas as pd
 import numpy as np
 import os
 
+def add_engineered_features(X):
+    X = X.copy()
+
+    X["age_group"] = pd.cut(
+        X["age"],
+        bins=[0, 30, 40, 50, 60, 100],
+        labels=["18-30", "31-40", "41-50", "51-60", "60+"]
+    )
+
+    X["was_previously_contacted"] = (X["previous"] > 0).astype(int)
+    X["campaign_successful"] = (X["campaign"] < 5).astype(int)
+    X["poutcome_success"] = (X["poutcome"] == "success").astype(int)
+
+    return X
+
+
 # Page configuration
 st.set_page_config(
     page_title="Bank Marketing Predictor",
@@ -84,7 +100,7 @@ def get_user_input():
         ['mon', 'tue', 'wed', 'thu', 'fri'])
     
     campaign = st.sidebar.number_input("Contacts in Current Campaign", 1, 50, 2)
-    pdays = st.sidebar.number_input("Days Since Last Contact (999 if never)", 0, 999, 999)
+    #pdays = st.sidebar.number_input("Days Since Last Contact (999 if never)", 0, 999, 999)
     previous = st.sidebar.number_input("Previous Contacts", 0, 10, 0)
     poutcome = st.sidebar.selectbox("Previous Campaign Outcome", 
         ['nonexistent', 'failure', 'success'])
@@ -110,7 +126,7 @@ def get_user_input():
         'month': month,
         'day_of_week': day_of_week,
         'campaign': campaign,
-        'pdays': pdays,
+        #'pdays': pdays,
         'previous': previous,
         'poutcome': poutcome,
         'emp.var.rate': emp_var_rate,
@@ -124,11 +140,11 @@ def get_user_input():
     input_df = pd.DataFrame([data])
     
     # Engineer features (MUST match the 3 features used in training: was_previously_contacted, campaign_successful, poutcome_success)
-    input_df['was_previously_contacted'] = (input_df['pdays'] != 999).astype(int)
+    #input_df['was_previously_contacted'] = (input_df['pdays'] != 999).astype(int)
  
-    input_df['campaign_successful'] = input_df['campaign'].apply(lambda x: 1 if x < 5 else 0) 
+    #input_df['campaign_successful'] = input_df['campaign'].apply(lambda x: 1 if x < 5 else 0) 
     
-    input_df['poutcome_success'] = (input_df['poutcome'] == 'success').astype(int)
+    #input_df['poutcome_success'] = (input_df['poutcome'] == 'success').astype(int)
   
     return input_df
 
